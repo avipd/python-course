@@ -1,6 +1,5 @@
-from helper import show_welcome_message, get_action, get_song_name, \
-    get_song_writer, get_song_singer, get_song_year, get_songs_list,\
-    get_exist_song_name, successful_update_message, \
+from helper import show_welcome_message, get_action,\
+    get_songs_list,get_exist_song_name, is_empty,\
     get_new_song, add_new_song, update_song, read_song, delete_song
 
 
@@ -16,8 +15,7 @@ def main():
             name_of_song, details_of_song = get_new_song(songs_data)
             songs_data = add_new_song(songs_data, name_of_song, details_of_song)
 
-        elif action == "Read":
-            # TODO: If songs_data empty : block Read
+        elif action == "Read" and is_empty(songs_data) is True:
             print("In read mode")
             list_of_songs = get_songs_list(songs_data)
             print(f"list_of_songs: {list_of_songs}")

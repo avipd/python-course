@@ -91,6 +91,12 @@ def update_song(database, song_name):
     return database
 
 
+def is_empty(database):
+    for key in database.keys():
+        return False
+    return True
+
+
 def read_song(database, song_name):
     # {'song_writer': 1, 'song_singer': 2, 'song_year': 3}
     for key, value in database[song_name].items():
