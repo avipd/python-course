@@ -1,3 +1,5 @@
+from json import load, dumps
+
 def show_welcome_message():
     print('Welcome to the songs system')
 
@@ -27,7 +29,8 @@ def get_song_name(list_of_songs):
         if is_item_exist(name, list_of_songs) == False:
             break
 
-        print("This option is not valid")
+        print("This song name is taken.")
+        show_songs(list_of_songs)
 
     return name
 
@@ -78,6 +81,30 @@ def get_new_song(songs_database):
     return song_name, song_details
 
 
+def get_update_song(database, song_name):
+    song_data = database[song_name].copy()
+
+    while True:
+        item = input("Insert item / action from list [song_name, song_writer, song_singer, song_year, exit] : ")
+
+        if item == 'song_writer':
+            song_write = get_song_singer()
+            song_data['song_writer'] = song_write
+        elif item == 'song_singer':
+            song_singer = get_song_singer()
+            song_data['song_singer'] = song_singer
+        elif item == 'song_year':
+            song_year = get_song_year()
+            song_data['song_year'] = song_year
+        elif item == 'exit':
+            break
+    return song_data
+
+
+def update_database(song_name, song_data, database):
+    database[song_name] = song_data
+
+
 def add_new_song(database, song_name, song_details):
     database[song_name] = song_details
     return database
@@ -103,12 +130,38 @@ def read_song(database, song_name):
         print(f'    {key}: {value}')
 
 
+def create_file(database):
+    with open('database.txt', 'a') as file_handler:
+        file_handler.write(f'{database}')
+
 
 def delete_song(database, song_name):
     del database[song_name]
-    successful_update_message()
     return database
 
 
+def show_songs(songs_list):
+    print("Songs list : ")
+    for song in songs_list:
+        print(f'    {song}')
+
+
+def get_json_data_from_file(file_name):
+    with open(file_name, mode='r') as file_handler:
+        data = load(file_handler)
+
+    return data
+
+
+def write_to_json_file(file_name, data):
+    json_object = dumps(data)
+    with open(file_name, mode='w') as file_handler:
+        file_handler.write(json_object)
+
+
+
+
 if __name__ == '__main__':
-    action_list = get_action(['Create', 'Read', 'Update', 'Delete', 'Exit'])
+    print(get_json_data_from_file('database.json'))
+    write_to_json_file('database.json', {'A': [1, 2, 3]})
+    print(get_json_data_from_file('database.json'))
