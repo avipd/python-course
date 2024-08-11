@@ -1,7 +1,7 @@
 from helper import show_welcome_message, get_action,\
-    get_songs_list,get_exist_song_name, is_empty, get_update_song,\
-    get_new_song, add_new_song,update_database, read_song, delete_song,\
-    show_songs, successful_update_message, get_json_data_from_file, write_to_json_file
+    get_songs_list, get_exist_song_name, is_empty, get_update_song,\
+    get_new_song, add_new_song, update_database, read_song, delete_song,\
+    show_songs, successful_update_message, get_json_data_from_file, convert_dict_to_json, write_to_json_file
 
 
 def main():
@@ -30,7 +30,8 @@ def main():
             show_songs(list_of_songs)
             song_name = get_exist_song_name(list_of_songs)
             song_data = get_update_song(database, song_name)
-            database = update_database(song_name, song_data, database)
+            data_updated = update_database(song_name, song_data, database)
+            write_to_json_file("database.json", data_updated)
             print(f"database = {database}")
 
         elif action == "Delete" and is_empty(database) is False:
@@ -39,7 +40,7 @@ def main():
             show_songs(list_of_songs)
             song_name = get_exist_song_name(list_of_songs)
             database = delete_song(database, song_name)
-            write_to_json_file("database.json", database )
+            write_to_json_file("database.json", database)
             successful_update_message()
             print(f'database = {database}')
 
@@ -55,18 +56,10 @@ def main():
 if __name__ == '__main__':
     main()
 
-# TODO: add option of update specific filed of song :
-# region update song data
-# item = input("Insert item / action from list [song_name, song_writer, song_singer, song_year, exit] : ")
-# if item == 'song_name':
-#     items_list[song_name] = ''
-# elif item == 'song_writer':
-#     items_list[name]['song_writer'] = ''
-# elif item == 'song_singer':
-#     items_list[name]['song_singer'] = ''
-# elif item == 'song_year':
-#     items_list[name]['song_year'] = ''
-# elif item == 'exit':
-#     break
-# endregion update song data
-# TODO: add database from text file(Your idea).
+# TODO:
+#   Integrate update function to json database
+#   Add uppercase to the first letter in each song data
+#   Add error handling
+#   check if song writer string contain only letters
+#   Add to git & gitHub
+
