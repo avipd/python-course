@@ -27,10 +27,10 @@ def get_songs_list(songs_data_dict):
 
 def get_song_name(list_of_songs):
     while True:
-        name = input("Insert name of song : ")
-        upper_char = name[0].isupper()
-        if upper_char == False:
-            print("Please capitalize the first letter of the word: ")
+        name = input("Insert name of song : ").capitalize()
+        char = name.replace(' ', '').isalpha()
+        if char == False:
+            print("Please write characters containing only letters: ")
             continue
         if is_item_exist(name, list_of_songs) == False:
             break
